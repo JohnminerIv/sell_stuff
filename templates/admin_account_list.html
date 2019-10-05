@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="/" method="POST">
+    <input type='hidden' value='{{ user.user_name }}' name='user_name'/>
+    <input type='hidden' value='{{ user.user_password }}' name='user_password'/>
+    <button type="submit" name="button">Back</button>
+</form>
+{% for _user in users %}
+    <p>{{_user.user_name}}</p>
+    {% include 'partials/delete_user_account_button.html' %}
+{% endfor %}
+{% endblock %}

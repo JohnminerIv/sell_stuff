@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="/" method="POST">
+    <input type='hidden' value='{{ user.user_name }}' name='user_name'/>
+    <input type='hidden' value='{{ user.user_password }}' name='user_password'/>
+    <button type="submit" name="button">Back</button>
+</form>
+<form action="/user/account" method="POST">
+    <input type='hidden' value='{{ user._id }}' name='user_id'/>
+    <input type='hidden' value='True' name='submit'/>
+    <input type="text" name="user_email" value="{{user.user_email}}">Email Address</input><br>
+    <input type="text" name="user_name" value="{{user.user_name}}">User Name</input><br>
+    <input type="text" name="user_password" value="{{user.user_password}}">Password</input><br>
+    {% if user.user_is_admin == True %}
+    <p>You are an admin </p>
+    <input type='hidden' value='!admin' name='admin_password'/>
+    {% else %}
+    <input type="text" name="admin_password">Password For admin access</input><br>
+    {% endif %}
+    <button type="submit" name="button">Submit</button>
+</form>
+<a href="../{{user._id}}/delete">Delete {{user.user_name}}</a>
+{% endblock %}

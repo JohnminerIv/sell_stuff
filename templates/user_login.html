@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% block content %}
+<form action="/" method="POST">
+    <input type="text" name="user_name">User Name</input>
+    <input type="text" name="user_password">Password</input>
+    <button type="submit" name="button">Submit</button>
+</form>
+<br>
+<a href="user_login/create">New User?</a><br>
+{% for user in users %}
+{{user.user_name}}<br>
+{{user.user_password}}<br>
+{% endfor %}
+{% endblock %}

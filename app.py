@@ -1,0 +1,153 @@
+from flask import Flask, render_template, request, redirect, url_for
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+import os
+
+app = Flask(__name__)
+client = MongoClient()
+db = client.Store
+users = db.users
+items = db.items
+carts = db.carts
+inventories = db.inventory
+
+
+@app.route('/')
+def home_page():
+    return redirect(url_for('user_login'))
+
+
+@app.route('/', methods=['POST'])
+def user_home_page():
+    user_name = request.form.get('user_name')
+    user_password = request.form.get('user_password')
+
+    user = users.find_one({
+        '$and': [
+            {'user_name': user_name},
+            {'user_password': user_password}
+            ]})
+
+    try:
+        if user['user_name'] == user_name and user['user_password'] == user_password:
+            return render_template('home_page.html', user=user, items=items.find())
+    except:
+        return redirect(url_for('user_login'))
+
+
+@app.route('/user_login')
+def user_login():
+    return render_template('user_login.html', users=users.find())
+
+
+@app.route('/user_login/create')
+def user_new_form():
+    return render_template('user_create.html')
+
+
+@app.route('/user_login/create', methods=['POST'])
+def user_new_create():
+    user = {
+        'user_email': request.form.get('user_email'),
+        'user_name': request.form.get('user_name'),
+        'user_password': request.form.get('user_password'),
+        'user_is_admin': False
+    }
+    users_id = users.insert_one(user).inserted_id
+    return redirect(url_for('user_login'))
+
+
+@app.route('/user/account', methods=['POST'])
+def user_account():
+    user_id = request.form.get('user_id')
+    if request.form.get('submit') is not None:
+        if request.form.get('admin_password') == '!admin':
+            user_is_admin = True
+            inventory = {'user_id': ObjectId(user_id)}
+            inventory_id = inventories.insert_one(inventory).inserted_id
+        else:
+            user_is_admin = False
+            inventory_id = None
+        updated_user = {
+            'user_email': request.form.get('user_email'),
+            'user_name': request.form.get('user_name'),
+            'user_password': request.form.get('user_password'),
+            'user_is_admin': user_is_admin,
+            'inventory': inventory_id
+        }
+        users.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$set': updated_user}
+        )
+    user = users.find_one({'_id': ObjectId(user_id)})
+    return render_template('user_edit.html', user=user)
+
+
+
+@app.route('/<user_id>/delete')
+def user_delete(user_id):
+    users.delete_one({'_id': ObjectId(user_id)})
+    return redirect(url_for('home_page'))
+
+
+
+
+@app.route('/admin/accounts', methods=['POST'])
+def admin_account_list():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    if request.form.get('_user_id') is not None:
+        _user_id = request.form.get('_user_id')
+        _user = users.find_one({'_id': ObjectId(_user_id)})
+        user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
+        user_items = items.find({'inventory': ObjectId(_user['inventory'])})
+        for item in user_items:
+            items.delete_one({'_id': ObjectId(item['_id'])})
+        inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
+        users.delete_one({'_id': ObjectId(_user_id)})
+    return render_template('admin_account_list.html', user=user, users=users.find())
+
+
+@app.route('/admin/inventory', methods=['POST'])
+def admin_inventory():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    inventory = inventories.find_one({'user_id': ObjectId(user_id)})
+    if request.form.get('edit') is not None:
+        item_id = request.form.get('item_id')
+        updated_item = {
+            'name': request.form.get('name'),
+            'description': request.form.get('description'),
+            'inventory': ObjectId(inventory['_id'])
+        }
+        items.update_one({'_id': ObjectId(item_id)}, {'$set': updated_item})
+    if request.form.get('add') is not None:
+        item = {
+            'name': request.form.get('name'),
+            'description': request.form.get('description'),
+            'inventory': ObjectId(inventory['_id'])
+        }
+        items.insert_one(item)
+
+    user_items = items.find({'inventory': ObjectId(inventory['_id'])})
+    return render_template('admin_inventory.html', user=user, inventory=inventory, items=user_items)
+
+@app.route('/admin/add/item', methods=['POST'])
+def admin_edit_inventory():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    return render_template('admin_add_item.html', user=user)
+
+@app.route('/admin/edit/item', methods=['POST'])
+def admin_edit_item():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    inventory = inventories.find_one({'user_id': ObjectId(user_id)})
+    item = request.form.get('item_id')
+    return render_template('admin_edit_item.html', user=user, inventory=inventory, item=item)
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)

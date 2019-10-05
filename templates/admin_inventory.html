@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="/" method="POST">
+    <input type='hidden' value='{{ user.user_name }}' name='user_name'/>
+    <input type='hidden' value='{{ user.user_password }}' name='user_password'/>
+    <button type="submit" name="button">Back</button>
+</form>
+{% for item in items %}
+    {{item.name}}<br>
+    {{item.description}}<br>
+    <a href="/{{item.id}}">Edit item</a><br>
+{% endfor%}
+{% include '/partials/admin_add_item_button.html' %}
+{% endblock %}

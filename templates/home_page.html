@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Home page
+{% endblock %}
+{% block content%}
+<p>Hello user{{user.user_name}}</p><br>
+{% include '/partials/account_button.html' %}
+{% include '/partials/cart_button.html' %}
+{% if user.user_is_admin == True %}
+{% include '/partials/admin_accounts_button.html' %}
+{% include '/partials/admin_inventory_button.html' %}
+{% endif %}
+<br>
+<br>
+{% for item in items %}
+{{item.name}}<a href="/{{user._id}}/{{item._id}}">Add to Cart</a><br>
+{{item.description}}<br>
+{% endfor %}
+{% endblock %}
