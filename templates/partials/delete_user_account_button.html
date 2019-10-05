@@ -1,5 +1,5 @@
 <form action="/admin/accounts" method="POST">
     <input type='hidden' value='{{ user._id }}' name='user_id'/>
     <input type='hidden' value='{{ _user._id }}' name='_user_id'/>
-    <button type="submit" name="button">User Accounts</button>
+    <button type="submit" name="button">Delete {{_user.name}}</button>
 </form>

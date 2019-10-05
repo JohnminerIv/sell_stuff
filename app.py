@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import requests
 import os
 
 app = Flask(__name__)
@@ -81,6 +82,71 @@ def user_account():
         )
     user = users.find_one({'_id': ObjectId(user_id)})
     return render_template('user_edit.html', user=user)
+
+@app.route('/user/cart', methods=['POST'])
+def user_cart():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    user_cart = carts.find({'user_id': ObjectId(user_id)})
+    return render_template('user_cart.html', user=user, user_cart=user_cart)
+
+
+@app.route('/user/cart/add', methods=['POST', 'GET'])
+def user_cart_add():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    item_id = request.form.get('item_id')
+    item = items.find_one({'_id': ObjectId(item_id)})
+    new_cart_item = {
+        'name': item['name'],
+        'description': item['description'],
+        'amount': 1,
+        'item_id': ObjectId(item_id),
+        'user_id': ObjectId(user_id)
+    }
+    carts.insert_one(new_cart_item)
+    return redirect(url_for('user_home_page'), code=307)
+
+@app.route('/user/cart/item', methods=['POST'])
+def user_cart_item():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    cart_item_id = request.form.get('cart_item_id')
+    cart_item = carts.find_one({'_id': ObjectId(cart_item_id)})
+    if request.form.get('edited') is not None:
+        new_cart_item = {
+            'name': cart_item['name'],
+            'description': cart_item['description'],
+            'amount': request.form.get('amount'),
+            'item_id': ObjectId(cart_item['item_id']),
+            'user_id': ObjectId(cart_item['user_id'])
+        }
+        carts.update_one({'_id': ObjectId(cart_item['_id'])}, {'$set': new_cart_item})
+    if request.form.get('delete') is not None:
+        carts.delete_one({'_id': ObjectId(cart_item['_id'])})
+        return redirect(url_for('user_cart'), code=307)
+    cart_item = carts.find_one({'_id': ObjectId(cart_item_id)})
+    return render_template('user_cart_item.html', user=user, cart_item=cart_item)
+
+@app.route('/user/cart/edit', methods=['POST'])
+def user_cart_edit():
+    user_id = request.form.get('user_id')
+    cart_item = carts.find_one({'user_id': ObjectId(user_id)})
+    new_cart_item = {
+        'name': cart_item['name'],
+        'description': cart_item['description'],
+        'amount': request.form.get('amount'),
+        'item_id': ObjectId(cart_item['item_id']),
+        'user_id': ObjectId(cart_item['user_id'])
+    }
+    carts.update_one({'_id': ObjectId(cart_item['_id'])}, {'$set': new_cart_item})
+    return redirect(url_for('user_cart_item'))
+
+@app.route('/user/cart/delete', methods=['POST'])
+def user_cart_delete():
+    cart_item_id = request.form.get('cart_item_id')
+    carts.delete_one({'_id': ObjectId(cart_item_id)})
+    return redirect(url_for('user_cart'), code=307)
 
 
 
