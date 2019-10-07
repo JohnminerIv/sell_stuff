@@ -8,7 +8,7 @@
 {% for item in items %}
     {{item.name}}<br>
     {{item.description}}<br>
-    <a href="/{{item.id}}">Edit item</a><br>
+    {% include '/partials/admin_edit_item_button.html' %}
 {% endfor%}
 {% include '/partials/admin_add_item_button.html' %}
 {% endblock %}

@@ -20,6 +20,10 @@ def home_page():
 
 @app.route('/', methods=['POST'])
 def user_home_page():
+    if request.form.get('user_id') is not None:
+        user_id = request.form.get('user_id')
+        user = users.find_one({'_id': ObjectId(user_id)})
+        return render_template('home_page.html', user=user, items=items.find())
     user_name = request.form.get('user_name')
     user_password = request.form.get('user_password')
 
@@ -152,6 +156,15 @@ def user_cart_delete():
 
 @app.route('/<user_id>/delete')
 def user_delete(user_id):
+    _user = users.find_one({'_id': ObjectId(user_id)})
+    user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
+    user_items = items.find({'inventory': ObjectId(_user['inventory'])})
+    cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
+    for item in cart_items:
+        carts.delete_one({'_id': ObjectId(item['_id'])})
+    for item in user_items:
+        items.delete_one({'_id': ObjectId(item['_id'])})
+    inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
     users.delete_one({'_id': ObjectId(user_id)})
     return redirect(url_for('home_page'))
 
@@ -167,6 +180,9 @@ def admin_account_list():
         _user = users.find_one({'_id': ObjectId(_user_id)})
         user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
         user_items = items.find({'inventory': ObjectId(_user['inventory'])})
+        cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
+        for item in cart_items:
+            carts.delete_one({'_id': ObjectId(item['_id'])})
         for item in user_items:
             items.delete_one({'_id': ObjectId(item['_id'])})
         inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
@@ -209,9 +225,25 @@ def admin_edit_item():
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     inventory = inventories.find_one({'user_id': ObjectId(user_id)})
-    item = request.form.get('item_id')
+    item_id = request.form.get('item_id')
+    item = items.find_one({'_id': ObjectId(item_id)})
     return render_template('admin_edit_item.html', user=user, inventory=inventory, item=item)
 
+@app.route('/kill')
+def kill():
+    _users = users.find()
+    _items = items.find()
+    _carts = carts.find()
+    _inventories = inventories.find()
+    for user in _users:
+        users.delete_one({'_id': ObjectId(user['_id'])})
+    for item in _items:
+        items.delete_one({'_id': ObjectId(item['_id'])})
+    for cart in _carts:
+        carts.delete_one({'_id': ObjectId(cart['_id'])})
+    for inventory in _inventories:
+        inventories.delete_one({'_id': ObjectId(inventory['_id'])})
+    return redirect(url_for('home_page'))
 
 
 

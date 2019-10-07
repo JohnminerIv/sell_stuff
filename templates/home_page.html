@@ -13,7 +13,7 @@ Home page
 <br>
 <br>
 {% for item in items %}
-{{item.name}}<a href="/{{user._id}}/{{item._id}}">Add to Cart</a><br>
+{{item.name}}
 {% include '/partials/add_to_cart_button.html'%}
 {{item.description}}<br>
 {% endfor %}
