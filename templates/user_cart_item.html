@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include 'partials/navbar.html' %}
+<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
     {{cart_item.name}}<br>
     {{cart_item.description}}<br>
     {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
     {% include 'partials/user_cart_edit_button.html'%}
     {% include 'partials/user_cart_delete_button.html'%}
+</div>
+</div>
 {% endblock %}

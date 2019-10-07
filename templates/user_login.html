@@ -1,14 +1,26 @@
 {% extends 'base.html'%}
 {% block content %}
+{% include 'partials/non_login_navbar.html' %}
+
+
+
+<div class="row justify-content-center pt-2">
+
+        <div class="col-md-2 justify-content-center pt-2">
+<br><br><br><br><br>
 <form action="/" method="POST">
-    <input type="text" name="user_name">User Name</input>
-    <input type="text" name="user_password">Password</input>
+    User Name<input type="text" name="user_name"><br>
+    Password<input type="text" name="user_password">
     <button type="submit" name="button">Submit</button>
 </form>
+
 <br>
 <a href="user_login/create">New User?</a><br>
-{% for user in users %}
+
+<!-- {% for user in users %}
 {{user.user_name}}<br>
 {{user.user_password}}<br>
-{% endfor %}
+{% endfor %} -->
+</div>
+</div>
 {% endblock %}

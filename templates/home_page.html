@@ -4,10 +4,14 @@ Home page
 {% endblock %}
 {% block content%}
 {% include 'partials/navbar.html' %}
+<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
 <br>
 {% for item in items %}
 <h5>{{item.name}}</h5>
 {% include '/partials/add_to_cart_button.html'%}
 {{item.description}}<br><br>
 {% endfor %}
+</div>
+</div>
 {% endblock %}

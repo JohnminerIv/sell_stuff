@@ -223,6 +223,9 @@ def admin_inventory():
             'inventory': ObjectId(inventory['_id'])
         }
         items.insert_one(item)
+    if request.form.get('delete') is not None:
+        item_id = request.form.get('item_id')
+        items.delete_one({'_id': ObjectId(item_id)})
 
     user_items = items.find({'inventory': ObjectId(inventory['_id'])})
     return render_template('admin_inventory.html', user=user, inventory=inventory, items=user_items)
@@ -241,6 +244,8 @@ def admin_edit_item():
     item_id = request.form.get('item_id')
     item = items.find_one({'_id': ObjectId(item_id)})
     return render_template('admin_edit_item.html', user=user, inventory=inventory, item=item)
+
+
 
 @app.route('/kill')
 def kill():

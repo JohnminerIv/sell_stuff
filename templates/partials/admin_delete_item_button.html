@@ -1,0 +1,6 @@
+<form action="/admin/inventory" method="POST">
+    <input type='hidden' value='{{ user._id }}' name='user_id'/>
+    <input type='hidden' value='{{ item._id }}' name='item_id'/>
+    <input type='hidden' value='{{ True }}' name='delete'/>
+    <button type="submit" name="button">Delete {{ item.name}}</button>
+</form>

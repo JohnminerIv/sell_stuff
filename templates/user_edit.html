@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include 'partials/navbar.html' %}
+<br>
+<br>
+<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
 <form action="/user/account" method="POST">
     <input type='hidden' value='{{ user._id }}' name='user_id'/>
     <input type='hidden' value='True' name='submit'/>
@@ -16,4 +20,6 @@
     <button type="submit" name="button">Submit</button>
 </form>
 <a href="../{{user._id}}/delete">Delete {{user.user_name}}</a>
+</div>
+</div>
 {% endblock %}

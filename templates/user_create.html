@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+{% include 'partials/non_login_navbar.html'%}
+<div class="row justify-content-center pt-2">
+
+        <div class="col-md-2 justify-content-center pt-2">
+<br><br><br><br><br>
 <form action="/user_login/create" method="POST">
-    <input type="text" name="user_email">Email Address</input>
-    <input type="text" name="user_name">User Name</input>
-    <input type="text" name="user_password">Password</input>
+    Email Address<input type="text" name="user_email"><br>
+    User Name<input type="text" name="user_name"><br>
+    Password<input type="text" name="user_password"><br>
     <button type="submit" name="button">Submit</button>
 </form>
+</div>
+</div>
 {% endblock %}

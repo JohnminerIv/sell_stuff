@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include 'partials/navbar.html' %}
+<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
 <form action="/admin/inventory" method="POST">
     <input type='hidden' value='True' name='edit'/>
     <input type='hidden' value='{{ item._id}}' name='item_id'/>
@@ -9,5 +11,7 @@
     <input type="text" name="description" value="{{item.description}}"></input><br>
     <button type="submit" name="button">Submit</button>
 </form>
-
+{% include '/partials/admin_delete_item_button.html' %}
+</div>
+</div>
 {% endblock %}
