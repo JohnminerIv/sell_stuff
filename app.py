@@ -40,6 +40,19 @@ def user_home_page():
         return redirect(url_for('user_login'))
 
 
+@app.route('/search', methods=['POST'])
+def search():
+    user_id = request.form.get('user_id')
+    search = request.form.get('search')
+    _items = items.find()
+    user = users.find_one({'_id': ObjectId(user_id)})
+    search_items = []
+    for item in _items:
+        if search.lower() in item['name'].lower():
+            search_items.append(item)
+    return render_template('home_page.html', user=user, items=search_items)
+
+
 @app.route('/user_login')
 def user_login():
     return render_template('user_login.html', users=users.find())

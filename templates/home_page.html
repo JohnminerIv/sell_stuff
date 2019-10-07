@@ -3,18 +3,11 @@
 Home page
 {% endblock %}
 {% block content%}
-<p>Hello user{{user.user_name}}</p><br>
-{% include '/partials/account_button.html' %}
-{% include '/partials/cart_button.html' %}
-{% if user.user_is_admin == True %}
-{% include '/partials/admin_accounts_button.html' %}
-{% include '/partials/admin_inventory_button.html' %}
-{% endif %}
-<br>
+{% include 'partials/navbar.html' %}
 <br>
 {% for item in items %}
-{{item.name}}
+<h5>{{item.name}}</h5>
 {% include '/partials/add_to_cart_button.html'%}
-{{item.description}}<br>
+{{item.description}}<br><br>
 {% endfor %}
 {% endblock %}

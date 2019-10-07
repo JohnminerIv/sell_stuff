@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="/" method="POST">
-    <input type='hidden' value='{{ user.user_name }}' name='user_name'/>
-    <input type='hidden' value='{{ user.user_password }}' name='user_password'/>
-    <button type="submit" name="button">Back</button>
-</form>
+{% include 'partials/navbar.html' %}
 <form action="/admin/inventory" method="POST">
     <input type='hidden' value='{{ user._id }}' name='user_id'/>
     <input type='hidden' value='True' name='add'/>
