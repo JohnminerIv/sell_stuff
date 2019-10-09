@@ -226,7 +226,7 @@ def admin_inventory():
             'image': request.form.get('image'),
             'inventory': ObjectId(inventory['_id']),
             'price': request.form.get('price'),
-            'seller': user['name']
+            'seller': user['user_name']
         }
         items.update_one({'_id': ObjectId(item_id)}, {'$set': updated_item})
     if request.form.get('add') is not None:
@@ -236,7 +236,7 @@ def admin_inventory():
             'image': request.form.get('image'),
             'inventory': ObjectId(inventory['_id']),
             'price': request.form.get('price'),
-            'seller': user['name']
+            'seller': user['user_name']
 
         }
         items.insert_one(item)
