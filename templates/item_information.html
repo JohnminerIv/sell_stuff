@@ -3,11 +3,11 @@
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
     <h4>{{item.name}}</h4><br>
-    <img src="{{item.image}}" width="1000" height="1000">
+    <img src="{{item.image}}" width="500" height="500">
     <p>This is being sold by {{item.seller}}</p>
     {{cart_item.description}}<br>
     <p>This costs {{item.price}}</p>
-    {% if cart_item != None %}
+    {% if cart_item == None %}
     {% include 'partials/add_to_cart_button.html'%}
     {% else %}
     <p> This item is in your cart</p>
