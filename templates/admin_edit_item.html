@@ -9,8 +9,8 @@
     <input type='hidden' value='{{ user._id }}' name='user_id'/>
     <input type="text" name="name" value="{{item.name}}"></input><br>
     <input type="text" name="description" value="{{item.description}}"></input><br>
-    <input type="text" name="price" value="price"></input><br>
-    <input type="text" name="image" value="image url"></input><br>
+    <input type="text" name="price" value="{{item.price}}"></input><br>
+    <input type="text" name="image" value="{{item.image}}"></input><br>
     <button type="submit" name="button">Submit</button>
 </form>
 {% include '/partials/admin_delete_item_button.html' %}
