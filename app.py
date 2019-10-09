@@ -3,10 +3,14 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import requests
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
+user_name = os.getenv("User_name")
+Pass_word = os.getenv("Pass_word")
 app = Flask(__name__)
-client = MongoClient()
-db = client.Store
+host = os.environ.get('MONGODB_URI', f'mongodb://<{user_name}>:<{Pass_word}>@ds017688.mlab.com:17688/heroku_9ktnwzhl')
+client = MongoClient(host=f'{host}?retryWrites=false')
+db = client.get_default_database()
 users = db.users
 items = db.items
 carts = db.carts
@@ -266,4 +270,4 @@ def kill():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+  app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
