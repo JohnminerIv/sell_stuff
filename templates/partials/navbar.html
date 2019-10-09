@@ -1,12 +1,14 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default bg-primary">
     <div class="container-fluid">
         <div class="navbar-header">
         <form class="form-inline my-2 my-lg-0" action="/" method="post">
+            {% if user != None %}
             <input type='hidden' value='{{ user._id }}' name='user_id'/>
+            {% endif %}
             <button class="btn btn-outline my-2" type="submit"><h1>Buy N Sell</h1></button>
         </form>
         </div>
-
+{% if user != None %}
                 <div class="pull-right">
                 {% include '/partials/cart_button.html'%}
 </div>
@@ -26,10 +28,10 @@
                 <form class="form-inline my-2 my-lg-0" action='/search' method="POST">
                 <input type='hidden' value='{{ user._id }}' name='user_id'/>
                   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='search'>
-                  <button class="btn btn-outline my-2 my-sm-0" type="submit">Search</button>
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 </div>
-
+{% endif %}
     </div>
 
 

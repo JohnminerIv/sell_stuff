@@ -15,7 +15,7 @@ inventories = db.inventory
 
 @app.route('/')
 def home_page():
-    return redirect(url_for('user_login'))
+    return redirect(url_for('user_login', user=None))
 
 
 @app.route('/', methods=['POST'])
@@ -55,12 +55,12 @@ def search():
 
 @app.route('/user_login')
 def user_login():
-    return render_template('user_login.html', users=users.find())
+    return render_template('user_login.html', user=None)
 
 
 @app.route('/user_login/create')
 def user_new_form():
-    return render_template('user_create.html')
+    return render_template('user_create.html', user=None)
 
 
 @app.route('/user_login/create', methods=['POST'])

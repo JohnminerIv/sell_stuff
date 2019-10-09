@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/navbar.html' %}
+
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
 {% for _user in users %}
-    <p>{{_user.user_name}}</p>
+    <h5>{{_user.user_name}}</h5>
     {% include 'partials/delete_user_account_button.html' %}
 {% endfor %}
 <a href="/kill">Delete everything?</a>

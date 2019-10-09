@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/navbar.html' %}
+
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-    {{cart_item.name}}<br>
+    <h4>{{cart_item.name}}</h4><br>
     {{cart_item.description}}<br>
     {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
     {% include 'partials/user_cart_edit_button.html'%}

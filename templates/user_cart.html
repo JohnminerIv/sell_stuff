@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/navbar.html' %}
+
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
 {% for cart_item in user_cart %}
-    {{cart_item.name}}<br>
+    <h5>{{cart_item.name}}</h5>
     {{cart_item.description}}<br>
     {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
-    {% include 'partials/user_cart_item_button.html'%}
+    {% include 'partials/user_cart_item_button.html'%}<br><br>
 {% endfor %}
 </div>
 </div>

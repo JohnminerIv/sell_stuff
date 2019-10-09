@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/navbar.html' %}
+
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
 {% for item in items %}
-    {{item.name}}<br>
+    <h5>{{item.name}}</h5>
     {{item.description}}<br>
-    {% include '/partials/admin_edit_item_button.html' %}
+    {% include '/partials/admin_edit_item_button.html' %}<br><br>
 {% endfor%}
 {% include '/partials/admin_add_item_button.html' %}
 </div>
