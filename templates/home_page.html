@@ -8,9 +8,14 @@ Home page
         <div class="col-sm-6 col-sm-offset-3">
 <br>
 {% for item in items %}
+<div class="col-sm">
+    {{item.image}}
+</div>
 <h5>{{item.name}}</h5>
-{% include '/partials/add_to_cart_button.html'%}
-{{item.description}}<br><br>
+<div class="col-sm">
+    {% include '/partials/add_to_cart_button.html'%}
+    {{item.description}}<br><br>
+</div>
 {% endfor %}
 </div>
 </div>

@@ -121,6 +121,7 @@ def user_cart_add():
         'name': item['name'],
         'description': item['description'],
         'amount': 1,
+        'image': item['image'],
         'item_id': ObjectId(item_id),
         'user_id': ObjectId(user_id)
     }
@@ -138,6 +139,7 @@ def user_cart_item():
             'name': cart_item['name'],
             'description': cart_item['description'],
             'amount': request.form.get('amount'),
+            'image': cart_item['image'],
             'item_id': ObjectId(cart_item['item_id']),
             'user_id': ObjectId(cart_item['user_id'])
         }
@@ -156,6 +158,7 @@ def user_cart_edit():
         'name': cart_item['name'],
         'description': cart_item['description'],
         'amount': request.form.get('amount'),
+        'image': cart_item['image'],
         'item_id': ObjectId(cart_item['item_id']),
         'user_id': ObjectId(cart_item['user_id'])
     }
@@ -216,6 +219,7 @@ def admin_inventory():
         updated_item = {
             'name': request.form.get('name'),
             'description': request.form.get('description'),
+            'image': request.from.get('image'),
             'inventory': ObjectId(inventory['_id'])
         }
         items.update_one({'_id': ObjectId(item_id)}, {'$set': updated_item})
@@ -223,6 +227,7 @@ def admin_inventory():
         item = {
             'name': request.form.get('name'),
             'description': request.form.get('description'),
+            'image': request.from.get('image'),
             'inventory': ObjectId(inventory['_id'])
         }
         items.insert_one(item)
