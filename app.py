@@ -122,6 +122,8 @@ def user_cart_add():
         'description': item['description'],
         'amount': 1,
         'image': item['image'],
+        'price': cart_item['price'],
+        'seller': cart_item['seller'],
         'item_id': ObjectId(item_id),
         'user_id': ObjectId(user_id)
     }
@@ -140,6 +142,8 @@ def user_cart_item():
             'description': cart_item['description'],
             'amount': request.form.get('amount'),
             'image': cart_item['image'],
+            'price': cart_item['price'],
+            'seller': cart_item['seller'],
             'item_id': ObjectId(cart_item['item_id']),
             'user_id': ObjectId(cart_item['user_id'])
         }
@@ -159,6 +163,8 @@ def user_cart_edit():
         'description': cart_item['description'],
         'amount': request.form.get('amount'),
         'image': cart_item['image'],
+        'price': cart_item['price'],
+        'seller': cart_item['seller'],
         'item_id': ObjectId(cart_item['item_id']),
         'user_id': ObjectId(cart_item['user_id'])
     }
@@ -218,7 +224,9 @@ def admin_inventory():
             'name': request.form.get('name'),
             'description': request.form.get('description'),
             'image': request.form.get('image'),
-            'inventory': ObjectId(inventory['_id'])
+            'inventory': ObjectId(inventory['_id']),
+            'price': request.form.get('price'),
+            'seller': user['name']
         }
         items.update_one({'_id': ObjectId(item_id)}, {'$set': updated_item})
     if request.form.get('add') is not None:
@@ -226,7 +234,10 @@ def admin_inventory():
             'name': request.form.get('name'),
             'description': request.form.get('description'),
             'image': request.form.get('image'),
-            'inventory': ObjectId(inventory['_id'])
+            'inventory': ObjectId(inventory['_id']),
+            'price': request.form.get('price'),
+            'seller': user['name']
+
         }
         items.insert_one(item)
     if request.form.get('delete') is not None:
@@ -251,6 +262,21 @@ def admin_edit_item():
     item = items.find_one({'_id': ObjectId(item_id)})
     return render_template('admin_edit_item.html', user=user, inventory=inventory, item=item)
 
+@app.route('/item/information', methods=['POST'])
+def item_information():
+    user_id = request.form.get('user_id')
+    user = users.find_one({'_id': ObjectId(user_id)})
+    item_id = request.form.get('item_id')
+    item = items.find_one({'_id': ObjectId(item_id)})
+    try:
+        cart_item = carts.find_one({
+            '$and': [
+                {'item_id': ObjectId(item['_id'])},
+                {'user_id': ObjectId(user['_id'])}
+                ]})
+    except:
+        cart_item = None
+    return render_template('item_information.html', user=user, item=item, cart_item=cart_item)
 
 
 @app.route('/kill')
