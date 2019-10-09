@@ -225,7 +225,7 @@ def admin_inventory():
         item = {
             'name': request.form.get('name'),
             'description': request.form.get('description'),
-            'image': request.from.get('image'),
+            'image': request.form.get('image'),
             'inventory': ObjectId(inventory['_id'])
         }
         items.insert_one(item)
