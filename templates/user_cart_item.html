@@ -3,10 +3,13 @@
 
 <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-    <h4>{{cart_item.name}}</h4><br>
+    <h4>{{cart_item.name}} sold buy {{cart_item.seller}}</h4><br>
+    <img src="{{cart_item.image}}" width="500" height="500">
     {{cart_item.description}}<br>
     {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
-    {% include 'partials/user_cart_edit_button.html'%}
+    the price is ${{cart_item.price}}<br>
+
+    Change the amount in your cart: {% include 'partials/user_cart_edit_button.html'%}
     {% include 'partials/user_cart_delete_button.html'%}
 </div>
 </div>

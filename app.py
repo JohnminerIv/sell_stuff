@@ -122,8 +122,8 @@ def user_cart_add():
         'description': item['description'],
         'amount': 1,
         'image': item['image'],
-        'price': cart_item['price'],
-        'seller': cart_item['seller'],
+        'price': item['price'],
+        'seller': item['seller'],
         'item_id': ObjectId(item_id),
         'user_id': ObjectId(user_id)
     }
