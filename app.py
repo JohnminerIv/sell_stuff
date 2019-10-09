@@ -188,8 +188,6 @@ def user_delete(user_id):
     return redirect(url_for('home_page'))
 
 
-
-
 @app.route('/admin/accounts', methods=['POST'])
 def admin_account_list():
     user_id = request.form.get('user_id')
@@ -219,7 +217,7 @@ def admin_inventory():
         updated_item = {
             'name': request.form.get('name'),
             'description': request.form.get('description'),
-            'image': request.from.get('image'),
+            'image': request.form.get('image'),
             'inventory': ObjectId(inventory['_id'])
         }
         items.update_one({'_id': ObjectId(item_id)}, {'$set': updated_item})
