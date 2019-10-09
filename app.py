@@ -63,11 +63,16 @@ def user_login():
 
 @app.route('/user_login/create')
 def user_new_form():
-    return render_template('user_create.html', user=None)
+
+    return render_template('user_create.html', user=None, error=False)
 
 
 @app.route('/user_login/create', methods=['POST'])
 def user_new_create():
+    _users = users.find()
+    for user in _users:
+        if user['user_name'] == request.form.get('user_name'):
+            return render_template('user_create.html', user=None, error=True)
     user = {
         'user_email': request.form.get('user_email'),
         'user_name': request.form.get('user_name'),
