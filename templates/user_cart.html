@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+
 {% for cart_item in user_cart %}
+<div class="row justify-content-center">
+    <div class="col-3">
+        <img src="{{item.image}}" width="100" height="100">
+        </div>
+    <div class="col-3">
     <h5>{{cart_item.name}}</h5>
     {{cart_item.description}}<br>
     {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
     {% include 'partials/user_cart_item_button.html'%}<br><br>
+    </div>
+    </div>
 {% endfor %}
-</div>
-</div>
+
+
 {% endblock %}
