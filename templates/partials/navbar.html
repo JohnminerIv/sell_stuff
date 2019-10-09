@@ -15,7 +15,6 @@
         <div class="pull-right">
                 {% include '/partials/account_button.html'%}
 </div>
-
                 {% if user.user_is_admin == True %}
                 <div class="pull-right">
                     {% include '/partials/admin_accounts_button.html' %}
@@ -24,6 +23,9 @@
                     {% include '/partials/admin_inventory_button.html' %}
                 </div>
                 {% endif %}
+                <div class="pull-right">
+                        {% include '/partials/log_out.html'%}
+        </div>
                 <div class="pull-right">
                 <form class="form-inline my-2 my-lg-0" action='/search' method="POST">
                 <input type='hidden' value='{{ user._id }}' name='user_id'/>
