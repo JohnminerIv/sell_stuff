@@ -196,7 +196,8 @@ def user_delete(user_id):
         for _item in item_in_other_cart:
             carts.delete_one({'_id': ObjectId(_item['_id'])})
         items.delete_one({'_id': ObjectId(item['_id'])})
-    inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
+    if _user['inventory'] is not None:
+        inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
     users.delete_one({'_id': ObjectId(user_id)})
     return redirect(url_for('home_page'))
 
