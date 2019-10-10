@@ -157,7 +157,7 @@ def user_cart_item():
         return redirect(url_for('user_cart'), code=307)
     cart_item = carts.find_one({'_id': ObjectId(cart_item_id)})
     return render_template('user_cart_item.html', user=user, cart_item=cart_item)
-
+'''
 @app.route('/user/cart/edit', methods=['POST'])
 def user_cart_edit():
     user_id = request.form.get('user_id')
@@ -174,7 +174,7 @@ def user_cart_edit():
     }
     carts.update_one({'_id': ObjectId(cart_item['_id'])}, {'$set': new_cart_item})
     return redirect(url_for('user_cart_item'))
-
+'''
 @app.route('/user/cart/delete', methods=['POST'])
 def user_cart_delete():
     cart_item_id = request.form.get('cart_item_id')
