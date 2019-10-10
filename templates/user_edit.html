@@ -23,8 +23,10 @@
     <li class="list-group-item"><input type="text" name="admin_password"></li>
     {% endif %}
     <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
-    <li class="list-group-item"><a href="../{{user._id}}/delete">Delete {{user.user_name}}</a></li>
   </ul>
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a href="../{{user._id}}/delete">Delete {{user.user_name}}</a></li>
+      </ul>
   </form>
 </div>
 {% endblock %}
