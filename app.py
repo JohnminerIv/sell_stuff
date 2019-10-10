@@ -192,8 +192,8 @@ def user_delete(user_id):
     except:
         pass
     cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
-        for item in cart_items:
-            carts.delete_one({'_id': ObjectId(item['_id'])})
+    for item in cart_items:
+        carts.delete_one({'_id': ObjectId(item['_id'])})
     try:
         for item in user_items:
             item_in_other_cart = carts.find({'item_id': ObjectId(item['_id'])})
