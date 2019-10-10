@@ -6,12 +6,12 @@
         <div class="col-md-2 justify-content-center pt-2">
 <br><br><br><br><br>
 <form action="/user_login/create" method="POST">
-    Email Address<input type="text" name="user_email"><br>
+    Email Address<br><input type="text" name="user_email"><br>
     {% if error == True%}
     <p>This user name is taken</p>
     {% endif %}
-    User Name<input type="text" name="user_name"><br>
-    Password<input type="text" name="user_password"><br>
+    User Name<br><input type="text" name="user_name"><br>
+    Password<br><input type="text" name="user_password"><br>
     <button type="submit" name="button">Submit</button>
 </form>
 </div>
