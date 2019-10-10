@@ -216,17 +216,23 @@ def admin_account_list():
     if request.form.get('_user_id') is not None:
         _user_id = request.form.get('_user_id')
         _user = users.find_one({'_id': ObjectId(_user_id)})
-        user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
-        user_items = items.find({'inventory': ObjectId(_user['inventory'])})
+        try:
+            user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
+            user_items = items.find({'inventory': ObjectId(_user['inventory'])})
+        except:
+            pass
         cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
         for item in cart_items:
             carts.delete_one({'_id': ObjectId(item['_id'])})
-        for item in user_items:
-            item_in_other_cart = carts.find({'item_id': ObjectId(item['_id'])})
-            for _item in item_in_other_cart:
-                carts.delete_one({'_id': ObjectId(_item['_id'])})
-            items.delete_one({'_id': ObjectId(item['_id'])})
-        inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
+        try:
+            for item in user_items:
+                item_in_other_cart = carts.find({'item_id': ObjectId(item['_id'])})
+                for _item in item_in_other_cart:
+                    carts.delete_one({'_id': ObjectId(_item['_id'])})
+                items.delete_one({'_id': ObjectId(item['_id'])})
+            inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
+        except:
+            pass
         users.delete_one({'_id': ObjectId(_user_id)})
     return render_template('admin_account_list.html', user=user, users=users.find())
 
