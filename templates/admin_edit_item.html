@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-<form action="/admin/inventory" method="POST">
-    <input type='hidden' value='True' name='edit'/>
-    <input type='hidden' value='{{ item._id}}' name='item_id'/>
-    <input type='hidden' value='{{ user._id }}' name='user_id'/>
-    <input type="text" name="name" value="{{item.name}}"></input><br>
-    <input type="text" name="description" value="{{item.description}}"></input><br>
-    <input type="text" name="price" value="{{item.price}}"></input><br>
-    <input type="text" name="image" value="{{item.image}}"></input><br>
-    <button type="submit" name="button">Submit</button>
-</form>
-{% include '/partials/admin_delete_item_button.html' %}
-</div>
+<div class="card bg-primary mx-auto my-5" style="width: 18rem;">
+  <div class="card-header">
+    <h4>Edit Item</h4>
+  </div>
+  <form action="/admin/inventory" method="POST">
+      <input type='hidden' value='True' name='edit'/>
+      <input type='hidden' value='{{ item._id}}' name='item_id'/>
+      <input type='hidden' value='{{ user._id }}' name='user_id'/>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Item Name</li>
+    <li class="list-group-item"><input type="text" name="name" value="{{item.name}}"></input><br></li>
+    <li class="list-group-item">Description</li>
+    <li class="list-group-item"><input type="text" name="description" value="{{item.description}}"></input><br><br></li>
+    <li class="list-group-item">Price</li>
+    <li class="list-group-item"><input type="text" name="price" value="{{item.price}}"></input></li>
+    <li class="list-group-item">Image Url</li>
+    <li class="list-group-item"><input type="text" name="image" value="{{item.image}}"></input></li>
+    <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
+    <li class="list-group-item">{% include '/partials/admin_delete_item_button.html' %}</li>
+  </ul>
+  </form>
 </div>
 {% endblock %}
