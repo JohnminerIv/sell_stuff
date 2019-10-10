@@ -92,7 +92,7 @@ def user_account():
             inventory_id = inventories.insert_one(inventory).inserted_id
         else:
             user_is_admin = False
-            inventory_id = None
+            inventory_id = inventories.insert_one(inventory).inserted_id
         updated_user = {
             'user_email': request.form.get('user_email'),
             'user_name': request.form.get('user_name'),
