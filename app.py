@@ -86,7 +86,7 @@ def user_new_create():
 def user_account():
     user_id = request.form.get('user_id')
     if request.form.get('submit') is not None:
-        if request.form.get('admin_password') == '!admin':
+        if request.form.get('admin_password') == 'seller':
             user_is_admin = True
             inventory = {'user_id': ObjectId(user_id)}
             inventory_id = inventories.insert_one(inventory).inserted_id

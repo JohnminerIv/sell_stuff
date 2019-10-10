@@ -12,10 +12,10 @@
     <input type="text" name="user_name" value="{{user.user_name}}">User Name</input><br>
     <input type="text" name="user_password" value="{{user.user_password}}">Password</input><br>
     {% if user.user_is_admin == True %}
-    <p>You are an admin </p>
-    <input type='hidden' value='!admin' name='admin_password'/>
+    <p>You are a seller</p>
+    <input type='hidden' value='seller' name='admin_password'/>
     {% else %}
-    <input type="text" name="admin_password">Password For admin access</input><br>
+    <input type="text" name="admin_password">Password to sell Items</input><br>
     {% endif %}
     <button type="submit" name="button">Submit</button>
 </form>
