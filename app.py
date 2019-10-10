@@ -191,8 +191,7 @@ def user_delete(user_id):
         user_items = items.find({'inventory': ObjectId(_user['inventory'])})
     except:
         pass
-    else:
-        cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
+    cart_items = carts.find({'user_id': ObjectId(_user['_id'])})
         for item in cart_items:
             carts.delete_one({'_id': ObjectId(item['_id'])})
     try:
@@ -205,8 +204,7 @@ def user_delete(user_id):
         inventories.delete_one({'_id': ObjectId(user_inventory['_id'])})
     except:
         pass
-    else:
-        users.delete_one({'_id': ObjectId(user_id)})
+    users.delete_one({'_id': ObjectId(user_id)})
     return redirect(url_for('home_page'))
 
 
