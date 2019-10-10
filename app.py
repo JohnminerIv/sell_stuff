@@ -101,7 +101,8 @@ def user_account():
             inventory = {'user_id': ObjectId(user_id)}
             inventory_id = inventories.insert_one(inventory).inserted_id
         else:
-            user_is_admin = False
+            user_is_admin = None
+            inventory = {'user_id': ObjectId(user_id)}
             inventory_id = inventories.insert_one(inventory).inserted_id
         updated_user = {
             'user_email': request.form.get('user_email'),
