@@ -1,19 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="row justify-content-center pt-2">
-
-        <div class="col-md-2 justify-content-center pt-2">
-<br><br><br><br><br>
-<form action="/user_login/create" method="POST">
-    Email Address<br><input type="text" name="user_email"><br>
+<div class="card bg-primary mx-auto my-5" style="width: 18rem;">
+  <div class="card-header">
+    <h4>Create user</h4>
+  </div>
+  <form action="/user_login/create" method="POST">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Email Address</li>
+    <li class="list-group-item"><input type="text" name="user_email"><br></li>
+    <li class="list-group-item">User Name</li>
     {% if error == True%}
-    <p>This user name is taken</p>
+    <li class="list-group-item">This user name is taken</li>
     {% endif %}
-    User Name<br><input type="text" name="user_name"><br>
-    Password<br><input type="text" name="user_password"><br>
-    <button type="submit" name="button">Submit</button>
-</form>
-</div>
+    <li class="list-group-item"><input type="text" name="user_name" required><br></li>
+    <li class="list-group-item">Password</li>
+    <li class="list-group-item"><input type="password" name="user_password" required><br></li>
+    <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
+  </ul>
+  </form>
 </div>
 {% endblock %}

@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-<form action="/admin/inventory" method="POST">
-    <input type='hidden' value='{{ user._id }}' name='user_id'/>
-    <input type='hidden' value='True' name='add'/>
-    <input type="text" name="name" value="Item Name"></input><br>
-    <input type="text" name="description" value="Description"></input><br>
-    <input type="text" name="price" value="price"></input><br>
-    <input type="text" name="image" value="image url"></input><br>
-
-    <button type="submit" name="button">Submit</button>
-</form>
-</div>
+<div class="card bg-primary mx-auto my-5" style="width: 18rem;">
+  <div class="card-header">
+    <h4>Add Item</h4>
+  </div>
+  <form action="/admin/inventory" method="POST">
+      <input type='hidden' value='{{ user._id }}' name='user_id'/>
+      <input type='hidden' value='True' name='add'/>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Item Name</li>
+    <li class="list-group-item"><input type="text" name="name" placeholder="Item Name"></input><br></li>
+    <li class="list-group-item">Description</li>
+    <li class="list-group-item"><input type="text" name="description" placeholder="Description"></input><br><br></li>
+    <li class="list-group-item">Price</li>
+    <li class="list-group-item"><input type="text" name="price" placeholder="Price"></input></li>
+    <li class="list-group-item">Image Url</li>
+    <li class="list-group-item"><input type="text" name="image" placeholder="Image Url"></input></li>
+    <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
+  </ul>
+  </form>
 </div>
 {% endblock %}

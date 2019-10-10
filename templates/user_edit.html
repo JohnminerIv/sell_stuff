@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<br>
-<br>
-<div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-<form action="/user/account" method="POST">
+<div class="card bg-primary mx-auto my-5" style="width: 18rem;">
+  <div class="card-header">
+    <h4>Edit user</h4>
+  </div>
+  <form action="/user/account" method="POST">
     <input type='hidden' value='{{ user._id }}' name='user_id'/>
     <input type='hidden' value='True' name='submit'/>
-    <input type="text" name="user_email" value="{{user.user_email}}">Email Address</input><br>
-    <input type="text" name="user_name" value="{{user.user_name}}">User Name</input><br>
-    <input type="text" name="user_password" value="{{user.user_password}}">Password</input><br>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Email Address</li>
+    <li class="list-group-item"><input type="text" name="user_email" value="{{user.user_email}}"><br></li>
+    <li class="list-group-item">User Name</li>
+    <li class="list-group-item"><input type="text" name="user_name" value="{{user.user_name}}"><br></li>
+    <li class="list-group-item">Password</li>
+    <li class="list-group-item"><input type="text" name="user_password" value="{{user.user_password}}"><br></li>
     {% if user.user_is_admin == True %}
-    <p>You are a seller</p>
     <input type='hidden' value='seller' name='admin_password'/>
+    <li class="list-group-item">You are a seller</li>
     {% else %}
-    <input type="text" name="admin_password">Password to sell Items</input><br>
+    <li class="list-group-item">Password to sell Items</li>
+    <li class="list-group-item"><input type="text" name="admin_password"></li>
     {% endif %}
-    <button type="submit" name="button">Submit</button>
-</form>
-<a href="../{{user._id}}/delete">Delete {{user.user_name}}</a>
-</div>
+    <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
+    <li class="list-group-item"><a href="../{{user._id}}/delete">Delete {{user.user_name}}</a></li>
+  </ul>
+  </form>
 </div>
 {% endblock %}

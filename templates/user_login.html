@@ -1,28 +1,5 @@
 {% extends 'base.html'%}
 {% block content %}
-
-
-
-<!--
-<div class="row justify-content-center pt-2">
-
-        <div class="col-md-2 justify-content-center pt-2">
-<br><br><br><br><br>
-<form action="/" method="POST">
-    User Name<br><input type="text" name="user_name"><br>
-    Password<br><input type="text" name="user_password"><br>
-    <button type="submit" class="mx-auto"name="button">Submit</button>
-</form>
-
-<br>
-<a href="user_login/create">New User?</a><br>
-
- {% for user in users %}
-{{user.user_name}}<br>
-{{user.user_password}}<br>
-{% endfor %}
-</div>
-</div>-->
 <div class="card bg-primary mx-auto my-5" style="width: 18rem;">
   <div class="card-header">
     <h4>Login</h4>
@@ -32,7 +9,7 @@
     <li class="list-group-item">User Name</li>
     <li class="list-group-item"><input type="text" name="user_name"><br></li>
     <li class="list-group-item">Password</li>
-    <li class="list-group-item"><input type="text" name="user_password"><br></li>
+    <li class="list-group-item"><input type="password" name="user_password"><br></li>
     <li class="list-group-item"><button type="submit" class="btn btn-secondary"name="button">Submit</button></li>
     <li class="list-group-item"><a href="user_login/create">New User?</a><br></li>
   </ul>
