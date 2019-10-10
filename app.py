@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 user_name = os.getenv("User_name")
 Pass_word = os.getenv("Pass_word")
@@ -18,11 +19,14 @@ inventories = db.inventory
 
 @app.route('/')
 def home_page():
+    """Redirect users to login page"""
     return redirect(url_for('user_login', user=None))
 
 
 @app.route('/', methods=['POST'])
 def user_home_page():
+    """This is the users home page and it can be reached by passing in the user
+    or a user name and password."""
     if request.form.get('user_id') is not None:
         user_id = request.form.get('user_id')
         user = users.find_one({'_id': ObjectId(user_id)})
@@ -45,6 +49,8 @@ def user_home_page():
 
 @app.route('/search', methods=['POST'])
 def search():
+    """This is what I bult for a pretty slow search bar it returns the homepage
+    but with only specific items."""
     user_id = request.form.get('user_id')
     search = request.form.get('search')
     _items = items.find()
@@ -58,16 +64,19 @@ def search():
 
 @app.route('/user_login')
 def user_login():
+    '''Renders login html'''
     return render_template('user_login.html', user=None)
 
 
 @app.route('/user_login/create')
 def user_new_form():
-
+    """ Renders the html to create a new user."""
     return render_template('user_create.html', user=None, error=False)
+
 
 @app.route('/user_login/create', methods=['POST'])
 def user_new_create():
+    """Creates the new user"""
     _users = users.find()
     for user in _users:
         if user['user_name'] == request.form.get('user_name'):
@@ -84,6 +93,7 @@ def user_new_create():
 
 @app.route('/user/account', methods=['POST'])
 def user_account():
+    """Allows user to edit their account."""
     user_id = request.form.get('user_id')
     if request.form.get('submit') is not None:
         if request.form.get('admin_password') == 'seller':
@@ -107,8 +117,10 @@ def user_account():
     user = users.find_one({'_id': ObjectId(user_id)})
     return render_template('user_edit.html', user=user)
 
+
 @app.route('/user/cart', methods=['POST'])
 def user_cart():
+    '''Allows user to access their cart.'''
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     user_cart = carts.find({'user_id': ObjectId(user_id)})
@@ -117,6 +129,7 @@ def user_cart():
 
 @app.route('/user/cart/add', methods=['POST', 'GET'])
 def user_cart_add():
+    """Routes from a button on homepage lets the user add an item to cart."""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     item_id = request.form.get('item_id')
@@ -134,8 +147,10 @@ def user_cart_add():
     carts.insert_one(new_cart_item)
     return redirect(url_for('user_home_page'), code=307)
 
+
 @app.route('/user/cart/item', methods=['POST'])
 def user_cart_item():
+    '''Lets the user see more information about the item in their cart.'''
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     cart_item_id = request.form.get('cart_item_id')
@@ -157,34 +172,19 @@ def user_cart_item():
         return redirect(url_for('user_cart'), code=307)
     cart_item = carts.find_one({'_id': ObjectId(cart_item_id)})
     return render_template('user_cart_item.html', user=user, cart_item=cart_item)
-'''
-@app.route('/user/cart/edit', methods=['POST'])
-def user_cart_edit():
-    user_id = request.form.get('user_id')
-    cart_item = carts.find_one({'user_id': ObjectId(user_id)})
-    new_cart_item = {
-        'name': cart_item['name'],
-        'description': cart_item['description'],
-        'amount': request.form.get('amount'),
-        'image': cart_item['image'],
-        'price': cart_item['price'],
-        'seller': cart_item['seller'],
-        'item_id': ObjectId(cart_item['item_id']),
-        'user_id': ObjectId(cart_item['user_id'])
-    }
-    carts.update_one({'_id': ObjectId(cart_item['_id'])}, {'$set': new_cart_item})
-    return redirect(url_for('user_cart_item'))
-'''
+
+
 @app.route('/user/cart/delete', methods=['POST'])
 def user_cart_delete():
+    """Deletes an item in the users cart"""
     cart_item_id = request.form.get('cart_item_id')
     carts.delete_one({'_id': ObjectId(cart_item_id)})
     return redirect(url_for('user_cart'), code=307)
 
 
-
 @app.route('/<user_id>/delete')
 def user_delete(user_id):
+    """Deletes the user from the users side."""
     _user = users.find_one({'_id': ObjectId(user_id)})
     try:
         user_inventory = inventories.find_one({'_id': ObjectId(_user['inventory'])})
@@ -210,6 +210,7 @@ def user_delete(user_id):
 
 @app.route('/admin/accounts', methods=['POST'])
 def admin_account_list():
+    """Lists the accounts for the admin to see."""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     if request.form.get('_user_id') is not None:
@@ -232,6 +233,7 @@ def admin_account_list():
 
 @app.route('/admin/inventory', methods=['POST'])
 def admin_inventory():
+    """Allows the admin to Add Edit and Delete items."""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     inventory = inventories.find_one({'user_id': ObjectId(user_id)})
@@ -264,14 +266,18 @@ def admin_inventory():
     user_items = items.find({'inventory': ObjectId(inventory['_id'])})
     return render_template('admin_inventory.html', user=user, inventory=inventory, items=user_items)
 
+
 @app.route('/admin/add/item', methods=['POST'])
 def admin_edit_inventory():
+    """Renders html to add items"""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     return render_template('admin_add_item.html', user=user)
 
+
 @app.route('/admin/edit/item', methods=['POST'])
 def admin_edit_item():
+    """Renders html to delete items"""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     inventory = inventories.find_one({'user_id': ObjectId(user_id)})
@@ -279,8 +285,10 @@ def admin_edit_item():
     item = items.find_one({'_id': ObjectId(item_id)})
     return render_template('admin_edit_item.html', user=user, inventory=inventory, item=item)
 
+
 @app.route('/item/information', methods=['POST'])
 def item_information():
+    """More information page for the items"""
     user_id = request.form.get('user_id')
     user = users.find_one({'_id': ObjectId(user_id)})
     item_id = request.form.get('item_id')
@@ -298,6 +306,7 @@ def item_information():
 
 @app.route('/kill')
 def kill():
+    """Deletes everything stored in the databases"""
     _users = users.find()
     _items = items.find()
     _carts = carts.find()
@@ -311,7 +320,6 @@ def kill():
     for inventory in _inventories:
         inventories.delete_one({'_id': ObjectId(inventory['_id'])})
     return redirect(url_for('home_page'))
-
 
 
 if __name__ == '__main__':
