@@ -3,18 +3,20 @@
 
 
 {% for cart_item in user_cart %}
-<div class="row justify-content-center">
-    <div class="col-3">
-        <img src="{{cart_item.image}}" width="100" height="100">
+    <div class="card mb-3 bg-primary text-center mx-auto" style="max-width: 700px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{{cart_item.image}}" class="card-img" width="350" height="200" >
         </div>
-    <div class="col-3">
-    <h5>{{cart_item.name}}</h5>
-    {{cart_item.description}}<br>
-    {{cart_item.amount}} of {{cart_item.name}} in your cart<br>
-    {% include 'partials/user_cart_item_button.html'%}
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{cart_item.name}}</h5>
+            <small><p class="card-title">{% include 'partials/user_cart_item_button.html'%}</p></small>
+            <p class="card-text">{{cart_item.description}} There is {{cart_item.amount}} of this item in your cart.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-    <br><br>
 {% endfor %}
 
 

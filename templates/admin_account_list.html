@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+
 {% for _user in users %}
-    <h5>{{_user.user_name}}</h5>
-    {% include 'partials/delete_user_account_button.html' %}
+    <div class="card mb-3 bg-primary text-center mx-auto" style="max-width: 450px;">
+      <div class="row no-gutters">
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{_user.user_name}}</h5>
+            <small><p class="card-title">{% include '/partials/more_information_button.html'%}</p></small>
+            <p class="card-text">{% include 'partials/delete_user_account_button.html' %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endfor %}
 <a href="/kill">Delete everything?</a>
-</div>
-</div>
 {% endblock %}
